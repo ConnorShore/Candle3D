@@ -1,15 +1,14 @@
 #version 330 core
 
 layout (location=0) in vec3 position;
-layout (location=1) in vec3 vertexColor;
-layout (location=2) in vec2 vertexUV;
+layout (location=1) in vec2 vertexUV;
 
-out vec3 fragColor;
 out vec2 fragUV;
+
+uniform mat4 model, view, projection;
 
 void main()
 {
-  gl_Position = vec4(position.x, position.y, position.z, 1.0);
-  fragColor = vertexColor;
+  gl_Position = projection * view * model * vec4(position, 1.0);
   fragUV = vec2(vertexUV.x, 1.0 - vertexUV.y);
 }
