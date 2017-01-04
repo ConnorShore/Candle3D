@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "Time.h"
 #include "InputManager.h"
+#include "StaticShader.h"
 
 class MainGame
 {
@@ -19,6 +20,10 @@ private:
 	Window _window;
 	Time _timer;
 	InputManager _inputManager;
+	StaticShader _staticShader;
+
+
+	GLuint _vaoID, _vboID, _eboID;
 
 	void init();
 	void input();
