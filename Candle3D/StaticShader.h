@@ -14,6 +14,8 @@ public:
 	void bindAttributes() override;
 	void getUniformLocations() override;
 
-private:
+	void loadTexture();
 
+private:
+	GLuint _textureLoc;
 };

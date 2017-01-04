@@ -4,6 +4,7 @@
 #include "Time.h"
 #include "InputManager.h"
 #include "StaticShader.h"
+#include "Texture.h"
 
 class MainGame
 {
@@ -21,7 +22,7 @@ private:
 	Time _timer;
 	InputManager _inputManager;
 	StaticShader _staticShader;
-
+	Texture _texture;
 
 	GLuint _vaoID, _vboID, _eboID;
 
