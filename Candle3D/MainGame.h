@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "StaticShader.h"
 #include "Texture.h"
+#include "Camera.h"
 
 class MainGame
 {
@@ -23,6 +24,7 @@ private:
 	InputManager _inputManager;
 	StaticShader _staticShader;
 	Texture _texture;
+	Camera _camera;
 
 	GLuint _vaoID, _vboID, _eboID;
 

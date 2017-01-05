@@ -97,11 +97,10 @@ void MainGame::init()
 	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	//glEnableVertexAttribArray(1);
 
-	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-	//glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
+	//TODO: Update stride and offset of each attrib once uncommented
 
 	glBindVertexArray(0);
 
@@ -109,21 +108,49 @@ void MainGame::init()
 	_staticShader.bindAttributes();
 
 	_texture = ResourceManager::loadTexture("Textures/test.png");
+
+	_camera.init(_window, _screenWidth, _screenHeight);
 }
 
 void MainGame::input()
 {
+	if (_inputManager.isKeyDown(SDLK_w)) {
+		_camera.translate(Translate::FORWARD, 7.0f * _timer.getDeltaTime());
+	}
+	else if (_inputManager.isKeyDown(SDLK_s)) {
+		_camera.translate(Translate::BACK, 7.0f * _timer.getDeltaTime());
+	}
+	if (_inputManager.isKeyDown(SDLK_a)) {
+		_camera.translate(Translate::LEFT, 7.0f * _timer.getDeltaTime());
+	}
+	else if (_inputManager.isKeyDown(SDLK_d)) {
+		_camera.translate(Translate::RIGHT, 7.0f * _timer.getDeltaTime());
+	}
 
+	if (_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
+		_camera.setMouseLook(true);
+	}
+	else {
+		_camera.setMouseLook(false);
+	}
+
+	//-------------------------//
+
+	if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
+		cleanUp();
+	}
 }
 
 void MainGame::update()
 {
 	_inputManager.update();
+	_camera.update(_inputManager);
 }
 
 void MainGame::render()
 {
 	glEnable(GL_DEPTH_TEST);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glBindVertexArray(_vaoID);
@@ -131,18 +158,7 @@ void MainGame::render()
 	_staticShader.start();
 	_staticShader.getUniformLocations();
 	_staticShader.loadTexture();
-
-	glm::mat4 view;
-	GLfloat radius = 10.0f;
-	GLfloat camX = sin(SDL_GetTicks() / 1000.0f) * radius;
-	GLfloat camZ = cos(SDL_GetTicks() / 1000.0f) * radius;
-	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	// Projection 
-	glm::mat4 projection;
-	projection = glm::perspective(45.0f, (GLfloat)_screenWidth / (GLfloat)_screenHeight, 0.1f, 100.0f);
-
-	_staticShader.loadViewMatrix(view);
-	_staticShader.loadProjectionMatrix(projection);
+	_staticShader.loadCameraMatricies(_camera.viewing.viewMatrix, _camera.viewing.projectionMatrix);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _texture.id);

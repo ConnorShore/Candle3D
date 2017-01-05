@@ -15,8 +15,7 @@ public:
 	void getUniformLocations() override;
 
 	void loadTexture();
-	void loadViewMatrix(glm::mat4& view);
-	void loadProjectionMatrix(glm::mat4& projection);
+	void loadCameraMatricies(glm::mat4& view, glm::mat4& projection);
 	void loadModelMatrix(glm::mat4& model);
 
 private:

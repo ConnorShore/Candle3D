@@ -32,13 +32,9 @@ void StaticShader::loadTexture()
 	loadInt(_textureLoc, 0);
 }
 
-void StaticShader::loadViewMatrix(glm::mat4& view)
+void StaticShader::loadCameraMatricies(glm::mat4 & view, glm::mat4 & projection)
 {
 	loadMatrix4f(_viewMatrixLoc, view);
-}
-
-void StaticShader::loadProjectionMatrix(glm::mat4 & projection)
-{
 	loadMatrix4f(_projectionMatrixLoc, projection);
 }
 

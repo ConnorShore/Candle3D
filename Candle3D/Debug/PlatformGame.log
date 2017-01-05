@@ -1,6 +1,11 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (PlatformGame.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   MainGame.cpp
-  GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  Camera.cpp
+  GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+  Generating Code...
+  Compiling...
+  main.cpp
+  Generating Code...
   PlatformGame.vcxproj -> C:\Users\user\Documents\Visual Studio 2015\Projects\Candle3D\Debug\Candle3D.exe
   PlatformGame.vcxproj -> C:\Users\user\Documents\Visual Studio 2015\Projects\Candle3D\Debug\Candle3D.pdb (Partial PDB)
