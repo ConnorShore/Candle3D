@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GameObjectManager.h"
 #include "Window.h"
 #include "Time.h"
 #include "InputManager.h"

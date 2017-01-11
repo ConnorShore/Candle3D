@@ -15,21 +15,15 @@ StaticShader::~StaticShader()
 void StaticShader::bindAttributes()
 {
 	bindAttribute(0, "vertexPosition");
-	//bindAttribute(1, "vertexColor");
+	bindAttribute(1, "vertexNormal");
 	bindAttribute(1, "vertexUV");
 }
 
 void StaticShader::getUniformLocations()
 {
-	_textureLoc = getUniformLocation("mySample");
 	_modelMatrixLoc = getUniformLocation("model");
 	_viewMatrixLoc = getUniformLocation("view");
 	_projectionMatrixLoc = getUniformLocation("projection");
-}
-
-void StaticShader::loadTexture()
-{
-	loadInt(_textureLoc, 0);
 }
 
 void StaticShader::loadCameraMatricies(glm::mat4 & view, glm::mat4 & projection)

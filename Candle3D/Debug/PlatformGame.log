@@ -1,4 +1,6 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (PlatformGame.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  MainGame.cpp
+  GameObject.cpp
+c:\users\user\documents\visual studio 2015\projects\candle3d\candle3d\gameobject.cpp(41): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'const ComponentType'
+c:\users\user\documents\visual studio 2015\projects\candle3d\candle3d\gameobject.cpp(35): warning C4715: 'GameObject::removeComponent': not all control paths return a value
   PlatformGame.vcxproj -> C:\Users\user\Documents\Visual Studio 2015\Projects\Candle3D\Debug\Candle3D.exe
   PlatformGame.vcxproj -> C:\Users\user\Documents\Visual Studio 2015\Projects\Candle3D\Debug\Candle3D.pdb (Partial PDB)

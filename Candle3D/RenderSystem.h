@@ -1,9 +1,7 @@
 #pragma once
 
 #include "StaticShader.h"
-#include "Model.h"
-
-#include <vector>
+#include "Camera.h"
 
 class RenderSystem
 {
@@ -12,10 +10,12 @@ public:
 	~RenderSystem();
 
 	void init();
-
-	void render(Model& model);
+	void prepare();
+	void render(Camera& camera);
 
 private:
 	StaticShader _staticShader;
+
+	void renderModels();
 };
 

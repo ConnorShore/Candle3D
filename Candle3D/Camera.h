@@ -9,7 +9,7 @@ enum Translate
 	FORWARD, BACK, LEFT, RIGHT
 };
 
-struct Transform
+struct CameraTransform
 {
 	glm::vec3 position, direction, right, up;
 	float pitch, yaw, roll, sensitivity;
@@ -40,7 +40,7 @@ public:
 
 	//--------------------//
 
-	Transform transform;
+	CameraTransform transform;
 	Viewing viewing;
 
 private:

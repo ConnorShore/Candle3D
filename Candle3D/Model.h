@@ -10,9 +10,10 @@
 class Model
 {
 public:
-	Model(const std::string&  path);
+	Model();
 	~Model();
 
+	void init(const std::string&  path);
 	void render(StaticShader& shader);
 
 	std::vector<Mesh> getMeshes() { return _meshes; }

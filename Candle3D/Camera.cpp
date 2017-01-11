@@ -98,7 +98,7 @@ void Camera::resetCamera()
 
 	viewing.fov = 65.0f;
 	viewing.zNear = 0.1f;
-	viewing.zFar = 100.0f;
+	viewing.zFar = 500.0f;
 }
 
 void Camera::resetView()

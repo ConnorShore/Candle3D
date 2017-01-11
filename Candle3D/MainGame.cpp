@@ -1,68 +1,14 @@
 #include "MainGame.h"
 #include "ResourceManager.h"
+#include "ModelComponent.h"
+#include "TestComponent.h"
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
+#include <string>
 
 #include "glm\gtc\matrix_transform.hpp"
 
-
-GLfloat vertices[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-};
-
-glm::vec3 cubePositions[] = {
-	glm::vec3(0.0f,  0.0f,  0.0f),
-	glm::vec3(2.0f,  5.0f, -15.0f),
-	glm::vec3(-1.5f, -2.2f, -2.5f),
-	glm::vec3(-3.8f, -2.0f, -12.3f),
-	glm::vec3(2.4f, -0.4f, -3.5f),
-	glm::vec3(-1.7f,  3.0f, -7.5f),
-	glm::vec3(1.3f, -2.0f, -2.5f),
-	glm::vec3(1.5f,  2.0f, -2.5f),
-	glm::vec3(1.5f,  0.2f, -1.5f),
-	glm::vec3(-1.3f,  1.0f, -1.5f)
-};
 
 MainGame::MainGame() : _isRunning(true), _screenWidth(1280), _screenHeight(720)
 {
@@ -79,15 +25,22 @@ void MainGame::init()
 	_window.createWindow("Engine Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight);
 	_window.setBackgroundColor(glm::vec4(30, 10, 80, 255));
 
-	_staticShader.init("Shaders/staticShader.vert", "Shaders/staticShader.frag");
-	_staticShader.bindAttributes();
+	_renderSystem.init();
 
 	_camera.init(_window, _screenWidth, _screenHeight);
 
-	_renderSystem.init();
+	GameObject* spider = GameObjectManager::instance().newGameObjectBlueprint();
+	spider->transform.position = (glm::vec3(0.0f, -1.75f, -3.0f));
+	spider->transform.scale = glm::vec3(0.1f);
+	spider->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
 
-	Model model("Models/Spider/spider.obj");
-	_models.push_back(model);
+	GameObject* spider2 = GameObjectManager::instance().newGameObjectBlueprint();
+	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -35.0f));
+	spider2->transform.scale = glm::vec3(0.15f);
+	spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
+	spider2->attachComponent(new TestComponent());
+
+	GameObjectManager::instance().getGameObject(0)->transform.position = glm::vec3(0.0f, -1.5f, 25.0f);
 }
 
 void MainGame::input()
@@ -123,30 +76,15 @@ void MainGame::update()
 {
 	_inputManager.update();
 	_camera.update(_inputManager);
+
+	GameObjectManager::instance().updateGameObjects();
 }
 
 void MainGame::render()
 {
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glEnable(GL_DEPTH_TEST);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	_renderSystem.prepare();
 
-	_staticShader.start();
-	_staticShader.getUniformLocations();
-	_staticShader.loadTexture();
-	_staticShader.loadCameraMatricies(_camera.viewing.viewMatrix, _camera.viewing.projectionMatrix);
-
-	for (Model m : _models) {
-		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(0.0f, -1.75f, -3.0f)); // Translate it down a bit so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.1f));	// It's a bit too big for our scene, so scale it down
-		_staticShader.loadModelMatrix(model);
-		m.render(_staticShader);
-		//_renderSystem.render(m);
-	}
-
-	_staticShader.stop();
+	_renderSystem.render(_camera);
 
 	_window.swapWindow();
 }
@@ -163,8 +101,8 @@ void MainGame::gameLoop()
 		input();
 		render();
 
-		_timer.LimitFPS(120.0f);
-		_timer.CalculateFPS(true);
+		_timer.LimitFPS(60.0f);
+		_timer.CalculateFPS(false);
 	}
 }
 

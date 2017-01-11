@@ -1,8 +1,9 @@
 #include "RenderSystem.h"
 
-#include <sstream>
-#include <string>
-
+#include "Model.h"
+#include "ModelComponent.h"
+#include "GameObjectManager.h"
+#include "glm\gtc\matrix_transform.hpp"
 
 RenderSystem::RenderSystem()
 {
@@ -15,41 +16,45 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::init()
 {
-	
+	_staticShader.init("Shaders/staticShader.vert", "Shaders/staticShader.frag");
+	_staticShader.bindAttributes();
 }
 
-void RenderSystem::render(Model& model)
+void RenderSystem::prepare()
 {
-	GLuint diffuseNum = 1, specularNum = 1;
-	int numMeshes = model.getMeshes().size();
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
 
-	for (int i = 0; i < numMeshes; i++) {
-		Mesh mesh = model.getMeshes()[i];
-		for (int j = 0; j < mesh.textures.size(); j++) {
-			glActiveTexture(GL_TEXTURE0 + j);
+void RenderSystem::render(Camera& camera)
+{
+	_staticShader.start();
+	_staticShader.getUniformLocations();
+	_staticShader.loadCameraMatricies(camera.viewing.viewMatrix, camera.viewing.projectionMatrix);
 
-			std::stringstream stream;
-			std::string number;
-			std::string name = mesh.textures[j].type;
+	renderModels();
 
-			if (name == "texture_diffuse") {
-				stream << diffuseNum++;
-			}
-			else if (name == "texture_specular") {
-				stream << specularNum++;
-			}
+	_staticShader.stop();
+}
 
-			number = stream.str();
+void RenderSystem::renderModels()
+{
+	unsigned int numObjects = GameObjectManager::instance().getNumGameObjects();
+	std::vector<GameObject*> objects = GameObjectManager::instance().getGameObjects();
 
-			glUniform1f(glGetUniformLocation(_staticShader.getProgram(), ("material." + name + number).c_str()), j);
-			glBindTexture(GL_TEXTURE_2D, mesh.textures[j].id);
+	for (int i = 0; i < numObjects; i++) {
+		if (objects[i]->hasComponent("model")) {
+			ModelComponent* comp = static_cast<ModelComponent*>(objects[i]->getComponent("model"));
+
+			glm::mat4 model;
+			model = glm::translate(model, objects[i]->transform.position);
+			//Add rotation
+			model = glm::scale(model, objects[i]->transform.scale);
+			_staticShader.loadModelMatrix(model);
+
+			comp->render(_staticShader);
 		}
-
-		glActiveTexture(GL_TEXTURE0);
-
-		//Draw Mesh
-		glBindVertexArray(mesh.getVaoID());
-		glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
 	}
 }

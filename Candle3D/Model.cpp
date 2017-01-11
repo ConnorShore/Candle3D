@@ -8,14 +8,20 @@
 #include <assimp\Importer.hpp>
 #include <assimp\postprocess.h>
 
-Model::Model(const std::string& path)
+Model::Model()
 {
-	loadModel(path);
+	
 }
 
 Model::~Model()
 {
 }
+
+void Model::init(const std::string & path)
+{
+	loadModel(path);
+}
+
 void Model::loadModel(const std::string& path)
 {
 	Assimp::Importer importer;
