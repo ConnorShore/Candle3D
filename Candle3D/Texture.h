@@ -2,9 +2,10 @@
 
 #include <string>
 #include <GL\glew.h>
+#include <assimp\IOStream.hpp>
 
 struct Texture {
 	GLuint id;
-	int width, height;
-	std::string filePath;
+	std::string type;
+	aiString path;
 };

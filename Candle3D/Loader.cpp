@@ -44,9 +44,7 @@ Texture Loader::loadPNG(const std::string& filePath)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	texture.width = width;
-	texture.height = height;
-	texture.filePath = filePath;
+	texture.path = filePath;
 
 	printf("Texture %s loaded\n", filePath.c_str());
 

@@ -6,6 +6,10 @@
 #include "StaticShader.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "Model.h"
+#include "RenderSystem.h"
+
+#include <vector>
 
 class MainGame
 {
@@ -23,10 +27,10 @@ private:
 	Time _timer;
 	InputManager _inputManager;
 	StaticShader _staticShader;
-	Texture _texture;
 	Camera _camera;
+	RenderSystem _renderSystem;
 
-	GLuint _vaoID, _vboID, _eboID;
+	std::vector<Model> _models;
 
 	void init();
 	void input();

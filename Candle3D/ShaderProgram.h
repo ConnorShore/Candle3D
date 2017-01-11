@@ -18,6 +18,8 @@ public:
 	std::string getVertexFile() const { return VERTEX_FILE; }
 	std::string getFragmentFile() const { return FRAGMENT_FILE; }
 
+	GLuint getProgram() { return _programID; }
+
 protected:
 	GLuint getUniformLocation(std::string name);
 	void bindAttribute(int attrib, std::string name);
