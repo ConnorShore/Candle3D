@@ -1,8 +1,16 @@
 #pragma once
 
+#include "GameObjectManager.h"
 #include "Window.h"
 #include "Time.h"
 #include "InputManager.h"
+#include "StaticShader.h"
+#include "Texture.h"
+#include "Camera.h"
+#include "Model.h"
+#include "RenderSystem.h"
+
+#include <vector>
 
 class MainGame
 {
@@ -19,6 +27,11 @@ private:
 	Window _window;
 	Time _timer;
 	InputManager _inputManager;
+	StaticShader _staticShader;
+	Camera _camera;
+	RenderSystem _renderSystem;
+
+	std::vector<Model> _models;
 
 	void init();
 	void input();

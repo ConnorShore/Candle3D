@@ -27,7 +27,8 @@ void InputManager::update()
 			keyReleased(evnt.key.keysym.sym);
 			break;
 		case SDL_MOUSEMOTION:
-			setMousePos(evnt.motion.x, evnt.motion.y);
+			mousePos.x = evnt.motion.x;
+			mousePos.y = evnt.motion.y;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			keyPressed(evnt.button.button);
@@ -56,10 +57,4 @@ bool InputManager::isKeyDown(unsigned int key)
 		return it->second;
 	else
 		return false;
-}
-
-void InputManager::setMousePos(float mouseX, float mouseY)
-{
-	_mousePos.x = mouseX;
-	_mousePos.y = mouseY;
 }
