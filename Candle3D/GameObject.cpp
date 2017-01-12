@@ -17,7 +17,7 @@ void GameObject::update()
 	}
 }
 
-void GameObject::attachComponent(Component * component)
+void GameObject::attachComponent(Component* component)
 {
 	component->setParent(this);
 	_components.insert(std::make_pair(component->getID(), component));
@@ -38,7 +38,7 @@ Component* GameObject::getComponent(const ComponentType& type)
 {
 	auto mit = _components.find(type);
 	if (mit == _components.end())
-		printf("Cannot find component%s", type);
+		printf("Cannot find component: %s\n", type);
 
 	return mit->second;
 }

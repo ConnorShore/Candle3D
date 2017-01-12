@@ -15,16 +15,14 @@ public:
 	}
 
 	GameObject* newGameObjectBlueprint();
+	GameObject* newGameObjectBlueprint(unsigned int goID);
+	void updateGameObjects();
 
 	std::vector<GameObject*> getGameObjects() const { return _gameObjects; }
 	unsigned int getNumGameObjects() const { return _objectCount; }
 
-	GameObject* getGameObject(unsigned int id)
-	{
-		return _gameObjects[id];
-	}
+	GameObject* getGameObject(unsigned int id) { return _gameObjects[id]; }
 
-	void updateGameObjects();
 
 private:
 	std::vector<GameObject*> _gameObjects;

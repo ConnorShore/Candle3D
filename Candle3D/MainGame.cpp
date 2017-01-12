@@ -2,6 +2,8 @@
 #include "ResourceManager.h"
 #include "ModelComponent.h"
 #include "TestComponent.h"
+#include "AmbientLightComponent.h"
+#include "PointLightComponent.h"
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
@@ -29,18 +31,28 @@ void MainGame::init()
 
 	_camera.init(_window, _screenWidth, _screenHeight);
 
+	ModelComponent* spiderModel = new ModelComponent("Models/Spider/spider.obj");
+	spiderModel->specularValue = 1.0f;
+
 	GameObject* spider = GameObjectManager::instance().newGameObjectBlueprint();
-	spider->transform.position = (glm::vec3(0.0f, -1.75f, -3.0f));
-	spider->transform.scale = glm::vec3(0.1f);
-	spider->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
+	spider->transform.position = (glm::vec3(-10.0f, -1.75f, -3.0f));
+	spider->transform.scale = glm::vec3(0.15f);
+	spider->attachComponent(spiderModel);
 
 	GameObject* spider2 = GameObjectManager::instance().newGameObjectBlueprint();
 	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -35.0f));
 	spider2->transform.scale = glm::vec3(0.15f);
 	spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
-	spider2->attachComponent(new TestComponent());
 
-	GameObjectManager::instance().getGameObject(0)->transform.position = glm::vec3(0.0f, -1.5f, 25.0f);
+	GameObject* sun = GameObjectManager::instance().newGameObjectBlueprint();
+	sun->transform.position = glm::vec3(0.0f, 30.0f, 0.0f);
+	sun->attachComponent(new AmbientLightComponent(0.2f));
+
+	GameObject* pointLight = GameObjectManager::instance().newGameObjectBlueprint();
+	pointLight->transform.position = glm::vec3(0.0f, 1.0f, -5.0f);
+	pointLight->attachComponent(new PointLightComponent(pointLight->transform.position, glm::vec3(1.0f)));
+
+	GameObjectManager::instance().getGameObject(0)->transform.position = glm::vec3(-15.0f, -2.25f, -35.0f);
 }
 
 void MainGame::input()

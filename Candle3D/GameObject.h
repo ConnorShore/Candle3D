@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Component.h"
 #include "Transform.h"
+#include "Component.h"
 
 #include <map>
 
@@ -23,6 +23,7 @@ public:
 	void setID(const unsigned int id) { _id = id; }
 
 	Transform transform;
+
 private:
 	typedef std::map<const ComponentType, Component*> ComponentBag;
 	ComponentBag _components;

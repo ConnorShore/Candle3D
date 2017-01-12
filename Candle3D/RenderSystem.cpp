@@ -33,6 +33,7 @@ void RenderSystem::render(Camera& camera)
 	_staticShader.start();
 	_staticShader.getUniformLocations();
 	_staticShader.loadCameraMatricies(camera.viewing.viewMatrix, camera.viewing.projectionMatrix);
+	_staticShader.loadLights();
 
 	renderModels();
 
@@ -47,6 +48,7 @@ void RenderSystem::renderModels()
 	for (int i = 0; i < numObjects; i++) {
 		if (objects[i]->hasComponent("model")) {
 			ModelComponent* comp = static_cast<ModelComponent*>(objects[i]->getComponent("model"));
+			_staticShader.loadSpecularValue(comp->specularValue);
 
 			glm::mat4 model;
 			model = glm::translate(model, objects[i]->transform.position);

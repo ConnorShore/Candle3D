@@ -2,6 +2,7 @@
 
 #include <string>
 
+
 class GameObject;
 
 typedef std::string ComponentType;
@@ -17,8 +18,12 @@ public:
 
 	virtual ComponentType getID() = 0;
 	
-	void setParent(GameObject* parent) { _parent = parent; }
+	void setParent(GameObject* par) { parent = par; }
 
-private:
-	GameObject* _parent = nullptr;
+	GameObject* getParent() { return parent; }
+
+	//--------------------------------//
+
+protected:
+	GameObject* parent = nullptr;
 };
