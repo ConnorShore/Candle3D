@@ -2,8 +2,8 @@
 #include "ResourceManager.h"
 #include "ModelComponent.h"
 #include "TestComponent.h"
-#include "AmbientLightComponent.h"
 #include "PointLightComponent.h"
+#include "SpotLightComponent.h"
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
@@ -43,14 +43,23 @@ void MainGame::init()
 	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -35.0f));
 	spider2->transform.scale = glm::vec3(0.15f);
 	spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
-
-	GameObject* sun = GameObjectManager::instance().newGameObjectBlueprint();
-	sun->transform.position = glm::vec3(0.0f, 30.0f, 0.0f);
-	sun->attachComponent(new AmbientLightComponent(0.2f));
+	spider2->attachComponent(new PointLightComponent(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(glm::vec3(1.0f, 0.045f, 0.0075))));
 
 	GameObject* pointLight = GameObjectManager::instance().newGameObjectBlueprint();
-	pointLight->transform.position = glm::vec3(0.0f, 1.0f, -5.0f);
-	pointLight->attachComponent(new PointLightComponent(pointLight->transform.position, glm::vec3(1.0f)));
+	pointLight->transform.position = _camera.transform.position;
+	pointLight->attachComponent(new PointLightComponent(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.045f, 0.0075)));
+
+	GameObject* pointLight2 = GameObjectManager::instance().newGameObjectBlueprint();
+	pointLight2->transform.position = glm::vec3(0.0f, 1.5f, -30.0f);
+	pointLight2->attachComponent(new PointLightComponent(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.045f, 0.0075)));
+
+	GameObject* pointLight3 = GameObjectManager::instance().newGameObjectBlueprint();
+	pointLight3->transform.position = glm::vec3(10.0f, 2.5f, -20.0f);
+	pointLight3->attachComponent(new PointLightComponent(glm::vec3(1.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
+
+	GameObject* pointLight4 = GameObjectManager::instance().newGameObjectBlueprint();
+	pointLight4->transform.position = glm::vec3(-10.0f, 2.5f, -20.0f);
+	pointLight4->attachComponent(new PointLightComponent(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
 
 	GameObjectManager::instance().getGameObject(0)->transform.position = glm::vec3(-15.0f, -2.25f, -35.0f);
 }
@@ -88,6 +97,9 @@ void MainGame::update()
 {
 	_inputManager.update();
 	_camera.update(_inputManager);
+
+	GameObjectManager::instance().getGameObject(1)->transform.position += glm::vec3(0.0f, 0.0f, 0.1f);
+	GameObjectManager::instance().getGameObject(2)->transform.position = _camera.transform.position;
 
 	GameObjectManager::instance().updateGameObjects();
 }

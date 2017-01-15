@@ -33,6 +33,8 @@ void RenderSystem::render(Camera& camera)
 	_staticShader.start();
 	_staticShader.getUniformLocations();
 	_staticShader.loadCameraMatricies(camera.viewing.viewMatrix, camera.viewing.projectionMatrix);
+	_staticShader.loadViewPos(camera.transform.position);
+	_staticShader.loadAmbient(0.12f);
 	_staticShader.loadLights();
 
 	renderModels();

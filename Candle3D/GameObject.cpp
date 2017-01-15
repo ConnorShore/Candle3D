@@ -37,8 +37,9 @@ Component* GameObject::removeComponent(ComponentType & type)
 Component* GameObject::getComponent(const ComponentType& type)
 {
 	auto mit = _components.find(type);
-	if (mit == _components.end())
+	if (mit == _components.end()) {
 		printf("Cannot find component: %s\n", type);
+	}
 
 	return mit->second;
 }
@@ -49,4 +50,14 @@ bool GameObject::hasComponent(const ComponentType& type)
 	if (mit == _components.end())
 		return false;
 	return true;
+}
+
+bool GameObject::hasComponentWithTag(std::string & tag)
+{
+	typedef ComponentBag::iterator iter;
+	for (iter it = _components.begin(); it != _components.end(); it++) {
+		if (it->second->hasTag(tag))
+			return true;
+	}
+	return false;
 }

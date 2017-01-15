@@ -23,6 +23,28 @@ void GameObjectManager::updateGameObjects()
 	}
 }
 
+std::vector<GameObject*> GameObjectManager::queryGameObjectsByTag(std::string & tag)
+{
+	std::vector<GameObject*> gos;
+	for (GameObject* go : _gameObjects) {
+		if (go->hasComponentWithTag(tag))
+			gos.push_back(go);
+	}
+	return gos;
+}
+
+//unsigned int GameObjectManager::getNumGameObjects(ComponentType compType)
+//{
+//	unsigned int count;
+//	for (GameObject* go : _gameObjects) {
+//		if (go->hasComponent(compType))
+//			count++;
+//
+//	}
+//
+//	return count;
+//}
+
 GameObject* GameObjectManager::newGameObjectBlueprint()
 {
 	GameObject* obj = new GameObject(_objectCount++);

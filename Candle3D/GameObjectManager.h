@@ -21,6 +21,8 @@ public:
 	std::vector<GameObject*> getGameObjects() const { return _gameObjects; }
 	unsigned int getNumGameObjects() const { return _objectCount; }
 
+	std::vector<GameObject*> queryGameObjectsByTag(std::string& tag);
+
 	GameObject* getGameObject(unsigned int id) { return _gameObjects[id]; }
 
 

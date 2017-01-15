@@ -7,8 +7,6 @@ out vec3 fragmentPosition;
 out vec3 fragmentNormal;
 out vec2 fragmentUV;
 
-out vec3 toCamVector;
-
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
@@ -19,8 +17,6 @@ void main()
     gl_Position = projection * view * worldPos;
 
     fragmentPosition = worldPos.xyz;
-    fragmentNormal = vertexNormal;
+    fragmentNormal = mat3(transpose(inverse(model))) * vertexNormal;
     fragmentUV = vertexUV;
-
-    toCamVector = (inverse(view) * vec4(0.0, 0.0, 0.0, 1.0)).xyz * worldPos.xyz;
 }
