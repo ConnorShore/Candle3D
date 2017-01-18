@@ -1,7 +1,7 @@
 #include "RenderSystem.h"
 
 #include "Model.h"
-#include "ModelComponent.h"
+#include "Componenets.h"
 #include "GameObjectManager.h"
 #include "glm\gtc\matrix_transform.hpp"
 
@@ -34,7 +34,7 @@ void RenderSystem::render(Camera& camera)
 	_staticShader.getUniformLocations();
 	_staticShader.loadCameraMatricies(camera.viewing.viewMatrix, camera.viewing.projectionMatrix);
 	_staticShader.loadViewPos(camera.transform.position);
-	_staticShader.loadAmbient(0.12f);
+	_staticShader.loadAmbient(0.05f);
 	_staticShader.loadLights();
 
 	renderModels();

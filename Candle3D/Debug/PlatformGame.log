@@ -1,6 +1,10 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (PlatformGame.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  StaticShader.cpp
+c:\users\user\documents\visual studio 2015\projects\candle3d\candle3d\component.h(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\visual studio 2015\projects\candle3d\candle3d\spotlightcomponent.h(41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   MainGame.cpp
 c:\users\user\documents\visual studio 2015\projects\candle3d\candle3d\component.h(28): warning C4018: '<': signed/unsigned mismatch
 c:\users\user\documents\visual studio 2015\projects\candle3d\candle3d\spotlightcomponent.h(41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   PlatformGame.vcxproj -> C:\Users\user\Documents\Visual Studio 2015\Projects\Candle3D\Debug\Candle3D.exe
   PlatformGame.vcxproj -> C:\Users\user\Documents\Visual Studio 2015\Projects\Candle3D\Debug\Candle3D.pdb (Partial PDB)

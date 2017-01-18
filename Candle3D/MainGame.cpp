@@ -1,9 +1,6 @@
 #include "MainGame.h"
 #include "ResourceManager.h"
-#include "ModelComponent.h"
-#include "TestComponent.h"
-#include "PointLightComponent.h"
-#include "SpotLightComponent.h"
+#include "Componenets.h"
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
@@ -43,23 +40,25 @@ void MainGame::init()
 	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -35.0f));
 	spider2->transform.scale = glm::vec3(0.15f);
 	spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
-	spider2->attachComponent(new PointLightComponent(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(glm::vec3(1.0f, 0.045f, 0.0075))));
 
 	GameObject* pointLight = GameObjectManager::instance().newGameObjectBlueprint();
 	pointLight->transform.position = _camera.transform.position;
 	pointLight->attachComponent(new PointLightComponent(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.045f, 0.0075)));
-
+	
 	GameObject* pointLight2 = GameObjectManager::instance().newGameObjectBlueprint();
 	pointLight2->transform.position = glm::vec3(0.0f, 1.5f, -30.0f);
 	pointLight2->attachComponent(new PointLightComponent(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.045f, 0.0075)));
 
 	GameObject* pointLight3 = GameObjectManager::instance().newGameObjectBlueprint();
-	pointLight3->transform.position = glm::vec3(10.0f, 2.5f, -20.0f);
+	pointLight3->transform.position = glm::vec3(13.0f, 2.5f, -20.0f);
 	pointLight3->attachComponent(new PointLightComponent(glm::vec3(1.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
 
 	GameObject* pointLight4 = GameObjectManager::instance().newGameObjectBlueprint();
-	pointLight4->transform.position = glm::vec3(-10.0f, 2.5f, -20.0f);
-	pointLight4->attachComponent(new PointLightComponent(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
+	pointLight4->transform.position = glm::vec3(-13.0f, 2.5f, -20.0f);
+	pointLight4->attachComponent(new PointLightComponent(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
+
+	//GameObject* directionLight = GameObjectManager::instance().newGameObjectBlueprint();
+	//directionLight->attachComponent(new DirectionLightComponent(glm::vec3(-0.0f, -1.0f, -0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 
 	GameObjectManager::instance().getGameObject(0)->transform.position = glm::vec3(-15.0f, -2.25f, -35.0f);
 }

@@ -39,7 +39,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Componenets.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DirectionLightComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LightComponent.h" />

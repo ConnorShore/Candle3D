@@ -30,6 +30,7 @@ private:
 
 	GLuint _ambientStrengthLoc;
 	GLuint _viewPosLoc;
+	GLuint _dirLightDirLoc, _dirLightColLoc;
 	GLuint _pointPosLoc[MAX_POINT_LIGHTS], _pointConstLoc[MAX_POINT_LIGHTS], _pointLinearLoc[MAX_POINT_LIGHTS], _pointQuadLoc[MAX_POINT_LIGHTS], _pointColorLoc[MAX_POINT_LIGHTS];
-	GLuint _spotPosLoc, _spotDirLoc, _spotCutoffDir, _spotColorLoc;
+	GLuint _spotPosLoc, _spotDirLoc, _spotCutoffDir, _spotOuterCutoff, _spotColorLoc;
 };

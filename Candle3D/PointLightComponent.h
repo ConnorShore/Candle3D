@@ -8,7 +8,7 @@ class PointLightComponent : public LightComponent
 {
 public:
 
-	PointLightComponent(const glm::vec3 offset, glm::vec3& col, const glm::vec3& attenuationVals)
+	PointLightComponent(const glm::vec3& offset, glm::vec3& col, const glm::vec3& attenuationVals)
 	{ 
 		position = offset;
 		color = col; 

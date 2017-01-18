@@ -7,6 +7,12 @@ struct AmbientLight
     float strength;
 };
 
+struct DirectionLight
+{
+    vec3 direction;
+    vec3 color;
+};
+
 struct PointLight
 {
     vec3 position;
@@ -16,14 +22,16 @@ struct PointLight
     float linear;
     float quadratic;
 };
-// struct SpotLight 
-// {
-//     vec3 position;
-//     vec3 direction;
-//     vec3 color;
 
-//     float cutoff;
-// };
+struct SpotLight 
+{
+    vec3 position;
+    vec3 direction;
+    vec3 color;
+
+    float cutOff;
+    float outerCutOff;
+};
 
 in vec3 fragmentPosition;
 in vec3 fragmentNormal;
@@ -37,10 +45,11 @@ uniform sampler2D texture_diffuse1;
 uniform float specularValue;
 uniform float ambient;
 
+uniform DirectionLight directionLight;
 uniform PointLight pointLights[NUM_POINT_LIGHTS];
-//uniform SpotLight spotLight;
 
 //Prototypes
+vec3 calcDirLight(DirectionLight light, vec3 normal, vec3 viewDir);
 vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main()
@@ -51,7 +60,7 @@ void main()
     vec3 result = vec3(0.0);
 
     //Directional light
-
+    result += calcDirLight(directionLight, norm, viewDir);
     //Point lights
     for(int i = 0; i < NUM_POINT_LIGHTS; i++) {
         result += calcPointLight(pointLights[i], norm, fragmentPosition, viewDir);
@@ -60,6 +69,24 @@ void main()
 
     //final calculation
     color = vec4(result.xyz, 1.0);
+}
+
+vec3 calcDirLight(DirectionLight light, vec3 normal, vec3 viewDir)
+{
+    vec3 lightDir = normalize(-light.direction);
+
+    //diffuse
+    float diff = max(dot(normal, lightDir), 0.0);
+    vec3 diffuse = diff * light.color * texture(texture_diffuse1, fragmentUV).xyz;
+
+    //specular
+    vec3 reflectiveDir = reflect(-lightDir, normal);
+    float specFactor = pow(max(dot(viewDir, reflectiveDir), 0.0), 32);
+    vec3 specular = specularValue * specFactor * light.color * texture(texture_diffuse1, fragmentUV).xyz;
+
+    vec3 diffuseTotal  = max(diffuse, ambient);
+
+    return (diffuseTotal + specular);
 }
 
 vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -84,5 +111,5 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
     vec3 diffuseTotal  = max(diffuse, ambient);
 
-    return (diffuseTotal + specular) * texture(texture_diffuse1, fragmentUV);
+    return (diffuseTotal + specular) * texture(texture_diffuse1, fragmentUV).xyz;
 }

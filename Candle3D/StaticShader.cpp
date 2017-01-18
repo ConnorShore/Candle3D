@@ -1,8 +1,6 @@
 #include "StaticShader.h"
 #include "GameObjectManager.h"
-#include "PointLightComponent.h"
-#include "ModelComponent.h"
-#include "SpotLightComponent.h"
+#include "Componenets.h"
 
 #include <iostream>
 
@@ -34,6 +32,9 @@ void StaticShader::getUniformLocations()
 
 	_ambientStrengthLoc = getUniformLocation("ambient");
 
+	_dirLightDirLoc = getUniformLocation("directionLight.direction");
+	_dirLightColLoc = getUniformLocation("directionLight.color");
+
 	for (int i = 0; i < MAX_POINT_LIGHTS; i++) {
 		auto is = std::to_string(i);
 		_pointPosLoc[i] = getUniformLocation("pointLights[" + is + "].position");
@@ -46,6 +47,7 @@ void StaticShader::getUniformLocations()
 	_spotPosLoc = getUniformLocation("spotLight.position");
 	_spotDirLoc = getUniformLocation("spotLight.direction");
 	_spotCutoffDir = getUniformLocation("spotLight.cutOff");
+	_spotOuterCutoff = getUniformLocation("spotLight.outerCutOff");
 	_spotColorLoc = getUniformLocation("spotLight.color");
 }
 
@@ -75,13 +77,6 @@ void StaticShader::loadLights()
 				loadFloat(_pointLinearLoc[i], point->linear);
 				loadFloat(_pointQuadLoc[i], point->quadratic);
 			}
-			//if (gos[i]->hasComponent("spot_light")) {
-			//	SpotLightComponent* spot = static_cast<SpotLightComponent*>(gos[i]->getComponent("spot_light"));
-			//	loadVector3f(_spotColorLoc, spot->color);
-			//	loadVector3f(_spotPosLoc, gos[i]->transform.position + spot->position);
-			//	loadVector3f(_spotDirLoc, spot->direction);
-			//	loadFloat(_spotCutoffDir, spot->cutOff);
-			//}
 		}
 		else {
 			loadVector3f(_pointPosLoc[i], glm::vec3(0.0f));
