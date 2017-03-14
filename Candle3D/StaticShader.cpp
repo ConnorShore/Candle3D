@@ -1,6 +1,6 @@
 #include "StaticShader.h"
 #include "GameObjectManager.h"
-#include "Componenets.h"
+#include "Components.h"
 
 #include <iostream>
 

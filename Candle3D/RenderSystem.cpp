@@ -1,7 +1,7 @@
 #include "RenderSystem.h"
 
 #include "Model.h"
-#include "Componenets.h"
+#include "Components.h"
 #include "GameObjectManager.h"
 #include "glm\gtc\matrix_transform.hpp"
 

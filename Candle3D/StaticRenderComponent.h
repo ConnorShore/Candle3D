@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "StaticShader.h"
 #include "ShaderProgram.h"
 
 class StaticRenderComponent : public Component

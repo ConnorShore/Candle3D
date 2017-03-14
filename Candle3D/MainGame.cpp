@@ -1,6 +1,6 @@
 #include "MainGame.h"
 #include "ResourceManager.h"
-#include "Componenets.h"
+#include "Components.h"
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
@@ -11,12 +11,10 @@
 
 MainGame::MainGame() : _isRunning(true), _screenWidth(1280), _screenHeight(720)
 {
-
 }
 
 MainGame::~MainGame()
 {
-
 }
 
 void MainGame::init()
@@ -57,9 +55,6 @@ void MainGame::init()
 	pointLight4->transform.position = glm::vec3(-13.0f, 2.5f, -20.0f);
 	pointLight4->attachComponent(new PointLightComponent(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
 
-	//GameObject* directionLight = GameObjectManager::instance().newGameObjectBlueprint();
-	//directionLight->attachComponent(new DirectionLightComponent(glm::vec3(-0.0f, -1.0f, -0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-
 	GameObjectManager::instance().getGameObject(0)->transform.position = glm::vec3(-15.0f, -2.25f, -35.0f);
 }
 
@@ -78,7 +73,7 @@ void MainGame::input()
 		_camera.translate(Translate::RIGHT, 7.0f * _timer.getDeltaTime());
 	}
 
-	if (_inputManager.isKeyDown(SDL_BUTTON_MIDDLE)) {
+	if (_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 		_camera.setMouseLook(true);
 	}
 	else {
