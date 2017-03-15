@@ -25,17 +25,26 @@ void MainGame::init()
 	_renderSystem.init();
 
 	_camera.init(_window, _screenWidth, _screenHeight);
+	_physicsWorld.initWorld(10.0f, true);
 
 	ModelComponent* spiderModel = new ModelComponent("Models/Spider/spider.obj");
 	spiderModel->specularValue = 1.0f;
 
+	BoxColliderComponent* spiderBoxCollider = new BoxColliderComponent();
+	spiderBoxCollider->size = glm::vec3(5.0f, 5.0f, 5.0f);
+
+	RigidBodyComponent* spiderBody = new RigidBodyComponent(spiderBoxCollider);
+	spiderBody->mass = 2.0f;
+
 	GameObject* spider = GameObjectManager::instance().newGameObjectBlueprint();
-	spider->transform.position = (glm::vec3(-10.0f, -1.75f, -3.0f));
+	spider->transform.position = (glm::vec3(-10.0f, -1.75f, -35.0f));
 	spider->transform.scale = glm::vec3(0.15f);
 	spider->attachComponent(spiderModel);
+	spider->attachComponent(spiderBody);
+	_physicsWorld.addRigidBody(spiderBody);
 
 	GameObject* spider2 = GameObjectManager::instance().newGameObjectBlueprint();
-	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -35.0f));
+	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -65.0f));
 	spider2->transform.scale = glm::vec3(0.15f);
 	spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
 
@@ -55,7 +64,15 @@ void MainGame::init()
 	pointLight4->transform.position = glm::vec3(-13.0f, 2.5f, -20.0f);
 	pointLight4->attachComponent(new PointLightComponent(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
 
-	GameObjectManager::instance().getGameObject(0)->transform.position = glm::vec3(-15.0f, -2.25f, -35.0f);
+	BoxColliderComponent* groundCollider = new BoxColliderComponent();
+	groundCollider->size = glm::vec3(50.0f, 1.0f, 50.0f);
+
+	RigidBodyComponent* groundBody = new RigidBodyComponent(groundCollider);
+
+	GameObject* ground = GameObjectManager::instance().newGameObjectBlueprint();
+	ground->transform.position = glm::vec3(-15.0f, -25.0f, -15.0f);
+	ground->attachComponent(groundBody);
+	_physicsWorld.addRigidBody(groundBody);
 }
 
 void MainGame::input()
@@ -96,6 +113,8 @@ void MainGame::update()
 	GameObjectManager::instance().getGameObject(2)->transform.position = _camera.transform.position;
 
 	GameObjectManager::instance().updateGameObjects();
+
+	_physicsWorld.step();
 }
 
 void MainGame::render()
@@ -127,6 +146,7 @@ void MainGame::gameLoop()
 void MainGame::cleanUp()
 {
 	_staticShader.cleanUp();
+	_physicsWorld.cleanUp();
 
 	SDL_Quit();
 	exit(0);

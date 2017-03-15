@@ -23,6 +23,7 @@ public:
 	void setParent(GameObject* par) { parent = par; }
 
 	GameObject* getParent() { return parent; }
+
 	bool hasTag(std::string& tag)
 	{
 		for (int i = 0; i < tags.size(); i++) {

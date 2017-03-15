@@ -27,7 +27,7 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="PhysicsWorld.cpp" />
+    <ClCompile Include="Physics\PhysicsWorld.cpp" />
     <ClCompile Include="picoPNG.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -51,9 +51,13 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelComponent.h" />
-    <ClInclude Include="PhysicsWorld.h" />
+    <ClInclude Include="Physics\BoxColliderComponent.h" />
+    <ClInclude Include="Physics\ColliderComponent.h" />
+    <ClInclude Include="Physics\PhysicsWorld.h" />
+    <ClInclude Include="Physics\SphereColliderComponent.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PointLightComponent.h" />
+    <ClInclude Include="Physics\RigidBodyComponent.h" />
     <ClInclude Include="SpotLightComponent.h" />
     <ClInclude Include="StaticRenderComponent.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -141,6 +145,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)deps\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

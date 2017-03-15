@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "RenderSystem.h"
+#include "Physics\PhysicsWorld.h"
 
 #include <vector>
 
@@ -30,6 +31,7 @@ private:
 	StaticShader _staticShader;
 	Camera _camera;
 	RenderSystem _renderSystem;
+	PhysicsWorld _physicsWorld;
 
 	std::vector<Model> _models;
 
