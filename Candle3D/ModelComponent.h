@@ -25,6 +25,8 @@ public:
 
 	virtual std::string getID() override { return "model"; }
 
+	float specularValue = 0.0f;
+
 private:
 	Model _model;
 };

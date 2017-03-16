@@ -9,8 +9,7 @@
 #include <assimp\postprocess.h>
 
 Model::Model()
-{
-	
+{	
 }
 
 Model::~Model()
