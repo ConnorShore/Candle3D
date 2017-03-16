@@ -21,7 +21,7 @@ void PhysicsWorld::initWorld(float gravity, bool debugDraw)
 	_world = new btDiscreteDynamicsWorld(_dispatcher, _overlappingPairCache, _solver, _collisionConfig);
 	_world->setGravity(btVector3(0.0f, -gravity, 0.0f));
 
-	if (debugDraw) _world->debugDrawWorld();
+	_debugDraw = debugDraw;
 }
 
 void PhysicsWorld::addRigidBody(RigidBodyComponent* body)
@@ -59,6 +59,9 @@ void PhysicsWorld::addRigidBody(RigidBodyComponent* body)
 	shapeTransform.setIdentity();
 	GameObject* obj = body->getParent();
 	shapeTransform.setOrigin(btVector3(body->getParent()->transform.position.x, body->getParent()->transform.position.y, body->getParent()->transform.position.z));
+	btQuaternion quat;
+	quat.setEuler(body->getParent()->transform.rotation.x, body->getParent()->transform.rotation.y, body->getParent()->transform.rotation.z);
+	shapeTransform.setRotation(quat);
 
 	float mass = body->mass;
 	bool isDynamic = (mass != 0.0f);
@@ -69,9 +72,19 @@ void PhysicsWorld::addRigidBody(RigidBodyComponent* body)
 	btDefaultMotionState* motionState = new btDefaultMotionState(shapeTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, localInertia);
 	body->body = new btRigidBody(rbInfo);
+	body->body->setCenterOfMassTransform(shapeTransform);
 
 	body->body->activate();
 	_world->addRigidBody(body->body);
+}
+
+void PhysicsWorld::debugDraw(Camera & camera, BulletDebugDrawer& drawer)
+{
+	if (_debugDraw) {
+		_world->getDebugDrawer()->setDebugMode(2);
+		drawer.SetMatrices(camera.viewing.viewMatrix, camera.viewing.projectionMatrix);
+		_world->debugDrawWorld();
+	}
 }
 
 void PhysicsWorld::step()
@@ -93,7 +106,6 @@ void PhysicsWorld::step()
 			{
 				trans = obj->getWorldTransform();
 			}
-			printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
 		}
 	}
 }

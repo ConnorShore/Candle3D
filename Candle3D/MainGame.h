@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "RenderSystem.h"
 #include "Physics\PhysicsWorld.h"
+#include "Physics\BulletDebugDrawer.h"
 
 #include <vector>
 
@@ -32,6 +33,7 @@ private:
 	Camera _camera;
 	RenderSystem _renderSystem;
 	PhysicsWorld _physicsWorld;
+	BulletDebugDrawer _debugDrawer;
 
 	std::vector<Model> _models;
 

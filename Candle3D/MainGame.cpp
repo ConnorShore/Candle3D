@@ -26,22 +26,25 @@ void MainGame::init()
 
 	_camera.init(_window, _screenWidth, _screenHeight);
 	_physicsWorld.initWorld(10.0f, true);
+	_physicsWorld.setDebugDrawer(&_debugDrawer);
 
 	ModelComponent* spiderModel = new ModelComponent("Models/Spider/spider.obj");
 	spiderModel->specularValue = 1.0f;
-
-	BoxColliderComponent* spiderBoxCollider = new BoxColliderComponent();
-	spiderBoxCollider->size = glm::vec3(5.0f, 5.0f, 5.0f);
-
-	RigidBodyComponent* spiderBody = new RigidBodyComponent(spiderBoxCollider);
-	spiderBody->mass = 2.0f;
 
 	GameObject* spider = GameObjectManager::instance().newGameObjectBlueprint();
 	spider->transform.position = (glm::vec3(-10.0f, -1.75f, -35.0f));
 	spider->transform.scale = glm::vec3(0.15f);
 	spider->attachComponent(spiderModel);
+
+	BoxColliderComponent* spiderBoxCollider = new BoxColliderComponent();
+	spiderBoxCollider->size = glm::vec3(10.0f, 10.0f, 10.0f);
+
+	RigidBodyComponent* spiderBody = new RigidBodyComponent(spiderBoxCollider);
+	spiderBody->mass = 2.0f;
+
 	spider->attachComponent(spiderBody);
 	_physicsWorld.addRigidBody(spiderBody);
+
 
 	GameObject* spider2 = GameObjectManager::instance().newGameObjectBlueprint();
 	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -65.0f));
@@ -65,12 +68,12 @@ void MainGame::init()
 	pointLight4->attachComponent(new PointLightComponent(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.045f, 0.0075f)));
 
 	BoxColliderComponent* groundCollider = new BoxColliderComponent();
-	groundCollider->size = glm::vec3(50.0f, 1.0f, 50.0f);
+	groundCollider->size = glm::vec3(150.0f, 5.0f, 150.0f);
 
 	RigidBodyComponent* groundBody = new RigidBodyComponent(groundCollider);
 
 	GameObject* ground = GameObjectManager::instance().newGameObjectBlueprint();
-	ground->transform.position = glm::vec3(-15.0f, -25.0f, -15.0f);
+	ground->transform.position = glm::vec3(-50.0f, -25.0f, -55.0f);
 	ground->attachComponent(groundBody);
 	_physicsWorld.addRigidBody(groundBody);
 }
@@ -122,6 +125,8 @@ void MainGame::render()
 	_renderSystem.prepare();
 
 	_renderSystem.render(_camera);
+
+	_physicsWorld.debugDraw(_camera, _debugDrawer);
 
 	_window.swapWindow();
 }

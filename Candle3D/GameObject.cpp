@@ -23,7 +23,7 @@ void GameObject::attachComponent(Component* component)
 	_components.insert(std::make_pair(component->getID(), component));
 }
 
-Component* GameObject::removeComponent(ComponentType & type)
+Component* GameObject::removeComponent(ComponentType& type)
 {
 	auto mit =_components.find(type);
 	if (mit == _components.end()) {

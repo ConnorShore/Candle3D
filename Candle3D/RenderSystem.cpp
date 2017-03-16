@@ -17,7 +17,7 @@ RenderSystem::~RenderSystem()
 void RenderSystem::init()
 {
 	_staticShader.init("Shaders/staticShader.vert", "Shaders/staticShader.frag");
-	_staticShader.bindAttributes();
+	_staticShader.bindAttributes();;
 }
 
 void RenderSystem::prepare()
@@ -55,6 +55,9 @@ void RenderSystem::renderModels()
 			glm::mat4 model;
 			model = glm::translate(model, objects[i]->transform.position);
 			//Add rotation
+			model = glm::rotate(model, objects[i]->transform.rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, objects[i]->transform.rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::rotate(model, objects[i]->transform.rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 			model = glm::scale(model, objects[i]->transform.scale);
 			_staticShader.loadModelMatrix(model);
 
