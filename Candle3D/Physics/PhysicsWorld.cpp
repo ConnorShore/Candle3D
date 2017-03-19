@@ -31,12 +31,12 @@ void PhysicsWorld::addRigidBody(RigidBodyComponent* body)
 
 	if (type == ColliderType::BOX) {
 		BoxColliderComponent* box = static_cast<BoxColliderComponent*>(body->collider);
-		shape = new btBoxShape(btVector3(box->size.x / 2.0f, box->size.y / 2.0f, box->size.z / 2.0f));
+		shape = new btBoxShape(btVector3(box->size.x, box->size.y, box->size.z));
 
 	}
 	else if (type == ColliderType::SPHERE) {
 		SphereColliderComponent* sphere = static_cast<SphereColliderComponent*>(body->collider);
-		shape = new btSphereShape(sphere->radius);
+		shape = new btSphereShape(sphere->radius*2);
 	}
 	else if (type == ColliderType::CYLINDER) {
 
@@ -58,9 +58,10 @@ void PhysicsWorld::addRigidBody(RigidBodyComponent* body)
 	btTransform shapeTransform;
 	shapeTransform.setIdentity();
 	GameObject* obj = body->getParent();
+	btVector3 origin = btVector3(body->getParent()->transform.position.x, body->getParent()->transform.position.y, body->getParent()->transform.position.z);
 	shapeTransform.setOrigin(btVector3(body->getParent()->transform.position.x, body->getParent()->transform.position.y, body->getParent()->transform.position.z));
 	btQuaternion quat;
-	quat.setEuler(body->getParent()->transform.rotation.x, body->getParent()->transform.rotation.y, body->getParent()->transform.rotation.z);
+	quat.setEuler(body->getParent()->transform.rotation.y, body->getParent()->transform.rotation.x, body->getParent()->transform.rotation.z);
 	shapeTransform.setRotation(quat);
 
 	float mass = body->mass;
@@ -69,7 +70,7 @@ void PhysicsWorld::addRigidBody(RigidBodyComponent* body)
 	if (isDynamic)
 		shape->calculateLocalInertia(mass, localInertia);
 
-	btDefaultMotionState* motionState = new btDefaultMotionState(shapeTransform);
+	btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(quat, origin));
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, localInertia);
 	body->body = new btRigidBody(rbInfo);
 	body->body->setCenterOfMassTransform(shapeTransform);

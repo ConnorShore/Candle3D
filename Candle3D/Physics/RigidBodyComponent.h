@@ -7,6 +7,8 @@
 #include <Bullet\LinearMath\btVector3.h>
 #include <Bullet\btBulletDynamicsCommon.h>
 #include <glm\glm.hpp>
+#include <glm\gtx\quaternion.hpp>
+#include <glm\gtc\type_ptr.hpp>
 
 class RigidBodyComponent : public Component
 {
@@ -18,10 +20,18 @@ public:
 
 	virtual void update() override
 	{
-		btTransform trans;
-		btTransform bodyTransform = body->getCenterOfMassTransform();
+		btTransform bodyTransform;
+		body->getMotionState()->getWorldTransform(bodyTransform);
 		parent->transform.position = glm::vec3(bodyTransform.getOrigin().getX(), bodyTransform.getOrigin().getY(), bodyTransform.getOrigin().getZ());
-		parent->transform.rotation = glm::vec3(bodyTransform.getRotation().getX(), bodyTransform.getRotation().getY(), bodyTransform.getRotation().getZ());
+
+
+		glm::quat quaternion = glm::quat(bodyTransform.getRotation().getW(), bodyTransform.getRotation().getX(), bodyTransform.getRotation().getY(), bodyTransform.getRotation().getZ());
+		parent->transform.rotation = glm::eulerAngles(quaternion);
+
+		if(test)
+			printf("Body: %f\t Model: %f\n", bodyTransform.getRotation().getX(), glm::radians(parent->transform.rotation.x));
+		//glm::quat quaternion = glm
+
 	}
 
 	virtual ComponentType getID() override { return "rigid_body"; }
@@ -29,5 +39,6 @@ public:
 	btRigidBody* body = nullptr;
 	ColliderComponent* collider;
 	float mass;
+	bool test = false;
 };
 

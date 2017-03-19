@@ -53,12 +53,22 @@ void RenderSystem::renderModels()
 			_staticShader.loadSpecularValue(comp->specularValue);
 
 			glm::mat4 model;
-			model = glm::translate(model, objects[i]->transform.position);
-			//Add rotation
-			model = glm::rotate(model, objects[i]->transform.rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-			model = glm::rotate(model, objects[i]->transform.rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-			model = glm::rotate(model, objects[i]->transform.rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-			model = glm::scale(model, objects[i]->transform.scale);
+
+			if (objects[i]->hasComponent("rigid_body")) {
+				RigidBodyComponent* body = static_cast<RigidBodyComponent*>(objects[i]->getComponent("rigid_body"));
+				btScalar mat[16];
+				btTransform trans = body->body->getWorldTransform();
+				trans.getOpenGLMatrix(mat);
+				model = glm::make_mat4(mat);
+			}
+			else {
+				model = glm::translate(model, objects[i]->transform.position);
+				model = glm::rotate(model, objects[i]->transform.rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+				model = glm::rotate(model, objects[i]->transform.rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::rotate(model, objects[i]->transform.rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+				model = glm::scale(model, objects[i]->transform.scale);
+			}
+
 			_staticShader.loadModelMatrix(model);
 
 			comp->render(_staticShader);

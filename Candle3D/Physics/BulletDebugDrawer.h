@@ -14,7 +14,6 @@ public:
 		glLoadMatrixf(&pProjectionMatrix[0][0]);
 	}
 	virtual void drawLine(const btVector3& from,const btVector3& to,const btVector3& color){
-		printf("Draw Line\n");
 		glLineWidth(1.0f);
 		glColor3f(color.x(), color.y(), color.z());
 		glBegin(GL_LINES);

@@ -28,28 +28,43 @@ void MainGame::init()
 	_physicsWorld.initWorld(10.0f, true);
 	_physicsWorld.setDebugDrawer(&_debugDrawer);
 
-	ModelComponent* spiderModel = new ModelComponent("Models/Spider/spider.obj");
-	spiderModel->specularValue = 1.0f;
+	//ModelComponent* spiderModel = new ModelComponent("Models/Spider/spider.obj");
+	//spiderModel->specularValue = 1.0f;
 
-	GameObject* spider = GameObjectManager::instance().newGameObjectBlueprint();
-	spider->transform.position = (glm::vec3(-10.0f, -1.75f, -35.0f));
-	spider->transform.scale = glm::vec3(0.15f);
-	spider->attachComponent(spiderModel);
+	//GameObject* spider = GameObjectManager::instance().newGameObjectBlueprint();
+	//spider->transform.position = (glm::vec3(-10.0f, -1.75f, -35.0f));
+	//spider->transform.scale = glm::vec3(0.15f);
+	//spider->attachComponent(spiderModel);
 
-	BoxColliderComponent* spiderBoxCollider = new BoxColliderComponent();
-	spiderBoxCollider->size = glm::vec3(10.0f, 10.0f, 10.0f);
+	//BoxColliderComponent* spiderBoxCollider = new BoxColliderComponent();
+	//spiderBoxCollider->size = glm::vec3(10.0f, 10.0f, 10.0f);
 
-	RigidBodyComponent* spiderBody = new RigidBodyComponent(spiderBoxCollider);
-	spiderBody->mass = 2.0f;
+	//RigidBodyComponent* spiderBody = new RigidBodyComponent(spiderBoxCollider);
+	//spiderBody->mass = 2.0f;
 
-	spider->attachComponent(spiderBody);
-	_physicsWorld.addRigidBody(spiderBody);
+	//spider->attachComponent(spiderBody);
+	//_physicsWorld.addRigidBody(spiderBody);
 
 
-	GameObject* spider2 = GameObjectManager::instance().newGameObjectBlueprint();
-	spider2->transform.position = (glm::vec3(15.0f, -2.25f, -65.0f));
-	spider2->transform.scale = glm::vec3(0.15f);
-	spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
+	//GameObject* spider2 = GameObjectManager::instance().newGameObjectBlueprint();
+	//spider2->transform.position = (glm::vec3(15.0f, -2.25f, -65.0f));
+	//spider2->transform.scale = glm::vec3(0.15f);
+	//spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
+
+	BoxColliderComponent* unitBoxCollider = new BoxColliderComponent();
+	unitBoxCollider->size = glm::vec3(1.0f);
+
+	RigidBodyComponent* unitBoxBody = new RigidBodyComponent(unitBoxCollider);
+	unitBoxBody->mass = 1.0f;
+	unitBoxBody->test = true;
+
+	GameObject* unitBox = GameObjectManager::instance().newGameObjectBlueprint();
+	unitBox->transform.position = glm::vec3(-2.0f, 5.0f, -20.0f);
+	unitBox->transform.rotation = glm::vec3(45.0f, 45.0f, 0.0f);
+	unitBox->transform.scale = glm::vec3(1.0f);
+	unitBox->attachComponent(new ModelComponent("Models/unitbox.obj"));
+	unitBox->attachComponent(unitBoxBody);
+	_physicsWorld.addRigidBody(unitBoxBody);
 
 	GameObject* pointLight = GameObjectManager::instance().newGameObjectBlueprint();
 	pointLight->transform.position = _camera.transform.position;
@@ -73,7 +88,7 @@ void MainGame::init()
 	RigidBodyComponent* groundBody = new RigidBodyComponent(groundCollider);
 
 	GameObject* ground = GameObjectManager::instance().newGameObjectBlueprint();
-	ground->transform.position = glm::vec3(-50.0f, -25.0f, -55.0f);
+	ground->transform.position = glm::vec3(-50.0f, -10.0f, -55.0f);
 	ground->attachComponent(groundBody);
 	_physicsWorld.addRigidBody(groundBody);
 }
@@ -93,6 +108,22 @@ void MainGame::input()
 		_camera.translate(Translate::RIGHT, 7.0f * _timer.getDeltaTime());
 	}
 
+	if (_inputManager.isKeyDown(SDLK_F1)) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	if (_inputManager.isKeyDown(SDLK_F2)) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+	if (_inputManager.isKeyDown(SDLK_TAB)) {
+		_physicsWorld.setDebugDraw(!_physicsWorld.isDebugDraw());
+	}
+
+	if (_inputManager.isKeyDown(SDLK_SPACE)) {
+		RigidBodyComponent* test = static_cast<RigidBodyComponent*>(GameObjectManager::instance().getGameObject(0)->getComponent("rigid_body"));
+		test->body->applyCentralForce(btVector3(0, 100, 0));
+	}
+
 	if (_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 		_camera.setMouseLook(true);
 	}
@@ -109,11 +140,9 @@ void MainGame::input()
 
 void MainGame::update()
 {
+
 	_inputManager.update();
 	_camera.update(_inputManager);
-
-	GameObjectManager::instance().getGameObject(1)->transform.position += glm::vec3(0.0f, 0.0f, 0.1f);
-	GameObjectManager::instance().getGameObject(2)->transform.position = _camera.transform.position;
 
 	GameObjectManager::instance().updateGameObjects();
 

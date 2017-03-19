@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="MotionState.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Loader.cpp" />
@@ -43,7 +42,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="MotionState.h" />
     <ClInclude Include="Physics\BulletDebugDrawer.h" />
     <ClInclude Include="DirectionLightComponent.h" />
     <ClInclude Include="GameObject.h" />
