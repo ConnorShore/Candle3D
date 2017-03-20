@@ -28,41 +28,20 @@ void MainGame::init()
 	_physicsWorld.initWorld(10.0f, true);
 	_physicsWorld.setDebugDrawer(&_debugDrawer);
 
-	//ModelComponent* spiderModel = new ModelComponent("Models/Spider/spider.obj");
-	//spiderModel->specularValue = 1.0f;
-
-	//GameObject* spider = GameObjectManager::instance().newGameObjectBlueprint();
-	//spider->transform.position = (glm::vec3(-10.0f, -1.75f, -35.0f));
-	//spider->transform.scale = glm::vec3(0.15f);
-	//spider->attachComponent(spiderModel);
-
-	//BoxColliderComponent* spiderBoxCollider = new BoxColliderComponent();
-	//spiderBoxCollider->size = glm::vec3(10.0f, 10.0f, 10.0f);
-
-	//RigidBodyComponent* spiderBody = new RigidBodyComponent(spiderBoxCollider);
-	//spiderBody->mass = 2.0f;
-
-	//spider->attachComponent(spiderBody);
-	//_physicsWorld.addRigidBody(spiderBody);
-
-
-	//GameObject* spider2 = GameObjectManager::instance().newGameObjectBlueprint();
-	//spider2->transform.position = (glm::vec3(15.0f, -2.25f, -65.0f));
-	//spider2->transform.scale = glm::vec3(0.15f);
-	//spider2->attachComponent(new ModelComponent("Models/Spider/spider.obj"));
-
-	BoxColliderComponent* unitBoxCollider = new BoxColliderComponent();
-	unitBoxCollider->size = glm::vec3(1.0f);
-
-	RigidBodyComponent* unitBoxBody = new RigidBodyComponent(unitBoxCollider);
-	unitBoxBody->mass = 1.0f;
-	unitBoxBody->test = true;
+	ModelComponent* boxModel = new ModelComponent("Models/unitbox.obj");
 
 	GameObject* unitBox = GameObjectManager::instance().newGameObjectBlueprint();
 	unitBox->transform.position = glm::vec3(-2.0f, 5.0f, -20.0f);
 	unitBox->transform.rotation = glm::vec3(45.0f, 45.0f, 0.0f);
-	unitBox->transform.scale = glm::vec3(1.0f);
-	unitBox->attachComponent(new ModelComponent("Models/unitbox.obj"));
+	unitBox->transform.scale = glm::vec3(2.0f);
+	unitBox->attachComponent(boxModel);
+
+	BoxColliderComponent* unitBoxCollider = new BoxColliderComponent();
+	unitBoxCollider->size = boxModel->getAABBDimensions();
+
+	RigidBodyComponent* unitBoxBody = new RigidBodyComponent(unitBoxCollider);
+	unitBoxBody->mass = 1.0f;
+
 	unitBox->attachComponent(unitBoxBody);
 	_physicsWorld.addRigidBody(unitBoxBody);
 

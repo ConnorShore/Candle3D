@@ -18,6 +18,7 @@ Model::~Model()
 
 void Model::init(const std::string & path)
 {
+	_maxX = _maxY = _maxZ = _minX = _minY = _minZ = 0;
 	loadModel(path);
 }
 
@@ -84,7 +85,17 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		}
 
 		vertices.push_back(vertex);
+
+		if (pos.x > _maxX) _maxX = pos.x;
+		if (pos.y > _maxY) _maxY = pos.y;
+		if (pos.z > _maxZ) _maxZ = pos.z;
+		if (pos.x < _minX) _minX = pos.x;
+		if (pos.y < _minY) _minY = pos.y;
+		if (pos.z < _minZ) _minZ = pos.z;
 	}
+
+	_aabbDims = glm::vec3(_maxX - _minX, _maxY - _minY, _maxZ - _minZ);
+	_aabbDims /= 2.0f;
 
 	for (GLuint i = 0; i < mesh->mNumFaces; i++)
 	{

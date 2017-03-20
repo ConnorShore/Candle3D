@@ -28,10 +28,6 @@ public:
 		glm::quat quaternion = glm::quat(bodyTransform.getRotation().getW(), bodyTransform.getRotation().getX(), bodyTransform.getRotation().getY(), bodyTransform.getRotation().getZ());
 		parent->transform.rotation = glm::eulerAngles(quaternion);
 
-		if(test)
-			printf("Body: %f\t Model: %f\n", bodyTransform.getRotation().getX(), glm::radians(parent->transform.rotation.x));
-		//glm::quat quaternion = glm
-
 	}
 
 	virtual ComponentType getID() override { return "rigid_body"; }
@@ -39,6 +35,5 @@ public:
 	btRigidBody* body = nullptr;
 	ColliderComponent* collider;
 	float mass;
-	bool test = false;
 };
 

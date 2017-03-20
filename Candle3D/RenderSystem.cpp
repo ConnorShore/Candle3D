@@ -60,6 +60,7 @@ void RenderSystem::renderModels()
 				btTransform trans = body->body->getWorldTransform();
 				trans.getOpenGLMatrix(mat);
 				model = glm::make_mat4(mat);
+				model = glm::scale(model, objects[i]->transform.scale);
 			}
 			else {
 				model = glm::translate(model, objects[i]->transform.position);
