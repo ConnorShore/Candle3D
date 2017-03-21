@@ -16,6 +16,12 @@ public:
 	RigidBodyComponent(ColliderComponent* colliderComponent) : mass(0.0f)
 	{
 		this->collider = colliderComponent;
+	}	
+	
+	RigidBodyComponent(ColliderComponent* colliderComponent, float mass)
+	{
+		this->collider = colliderComponent;
+		this->mass = mass;
 	}
 
 	virtual void update() override

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "StaticRenderComponent.h"
+#include "GameObject.h"
 #include "Model.h"
 
 #include <glm/glm.hpp>
-
 class ModelComponent : public StaticRenderComponent
 {
 public:

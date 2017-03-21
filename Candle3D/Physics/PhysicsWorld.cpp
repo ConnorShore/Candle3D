@@ -1,7 +1,6 @@
 #include "PhysicsWorld.h"
 
-#include "BoxColliderComponent.h"
-#include "SphereColliderComponent.h"
+#include "PhysicsComponenets.h"
 #include "..\GameObject.h"
 
 PhysicsWorld::PhysicsWorld()
@@ -32,23 +31,25 @@ void PhysicsWorld::addRigidBody(RigidBodyComponent* body)
 	if (type == ColliderType::BOX) {
 		BoxColliderComponent* box = static_cast<BoxColliderComponent*>(body->collider);
 		shape = new btBoxShape(btVector3(box->size.x, box->size.y, box->size.z));
-
 	}
 	else if (type == ColliderType::SPHERE) {
 		SphereColliderComponent* sphere = static_cast<SphereColliderComponent*>(body->collider);
 		shape = new btSphereShape(sphere->radius*2);
 	}
 	else if (type == ColliderType::CYLINDER) {
-
+		CylinderColliderComponent* cylinder = static_cast<CylinderColliderComponent*>(body->collider);
+		shape = new btCylinderShape(btVector3(cylinder->halfDims.x, cylinder->halfDims.y, cylinder->halfDims.z));
 	}
 	else if (type == ColliderType::CAPSULE) {
-
+		CapsuleColliderComponent* capsule = static_cast<CapsuleColliderComponent*>(body->collider);
+		shape = new btCapsuleShape(capsule->radius, capsule->height);
 	}
 	else if (type == ColliderType::CONE) {
-
+		ConeColliderComponent* cone = static_cast<ConeColliderComponent*>(body->collider);
+		shape = new btConeShape(cone->radius, cone->height);
 	}
 	else if (type == ColliderType::NONE) {
-		//Do nothing
+		//Do nothing//
 	}
 	else {
 		printf("%s is not a valid shape type!", body->collider->colliderType);
@@ -88,10 +89,9 @@ void PhysicsWorld::debugDraw(Camera & camera, BulletDebugDrawer& drawer)
 	}
 }
 
-void PhysicsWorld::step()
+void PhysicsWorld::step(float timeStep, int subSteps)
 {
-	//TODO: make stepSimulation parameters into step() arguments
-	_world->stepSimulation(1.0f / 60.0f, 6);
+	_world->stepSimulation(timeStep, subSteps);
 
 	int numObjects = _world->getNumCollisionObjects();
 	for (int i = 0; i < numObjects; i++) {

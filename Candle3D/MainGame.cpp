@@ -52,6 +52,8 @@ void MainGame::init()
 	GameObject* pointLight2 = GameObjectManager::instance().newGameObjectBlueprint();
 	pointLight2->transform.position = glm::vec3(0.0f, 1.5f, -30.0f);
 	pointLight2->attachComponent(new PointLightComponent(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.045f, 0.0075)));
+	pointLight2->attachComponent(new RigidBodyComponent(new SphereColliderComponent(1.0f), 0.0f));
+	_physicsWorld.addRigidBody(static_cast<RigidBodyComponent*>(pointLight2->getComponent("rigid_body")));
 
 	GameObject* pointLight3 = GameObjectManager::instance().newGameObjectBlueprint();
 	pointLight3->transform.position = glm::vec3(13.0f, 2.5f, -20.0f);
@@ -125,7 +127,7 @@ void MainGame::update()
 
 	GameObjectManager::instance().updateGameObjects();
 
-	_physicsWorld.step();
+	_physicsWorld.step(1.0f/60.0f, 6);
 }
 
 void MainGame::render()

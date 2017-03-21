@@ -14,7 +14,7 @@ public:
 	void initWorld(float gravity, bool debugDraw = false);
 	void addRigidBody(RigidBodyComponent* body);
 	void debugDraw(Camera& camera, BulletDebugDrawer& drawer);
-	void step();
+	void step(float timeStep, int subStep);
 	void cleanUp();
 
 	bool isDebugDraw() const { return _debugDraw; }

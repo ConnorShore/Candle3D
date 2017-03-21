@@ -53,7 +53,11 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelComponent.h" />
     <ClInclude Include="Physics\BoxColliderComponent.h" />
+    <ClInclude Include="Physics\CapsuleColliderComponent.h" />
     <ClInclude Include="Physics\ColliderComponent.h" />
+    <ClInclude Include="Physics\ConeColliderComponent.h" />
+    <ClInclude Include="Physics\CylinderColliderComponent.h" />
+    <ClInclude Include="Physics\PhysicsComponenets.h" />
     <ClInclude Include="Physics\PhysicsWorld.h" />
     <ClInclude Include="Physics\SphereColliderComponent.h" />
     <ClInclude Include="picoPNG.h" />
