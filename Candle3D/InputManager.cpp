@@ -53,8 +53,10 @@ void InputManager::keyReleased(unsigned int key)
 bool InputManager::isKeyDown(unsigned int key)
 {
 	auto it = _keyMap.find(key);
-	if (it != _keyMap.end())
+	if (it != _keyMap.end()) {
 		return it->second;
-	else
+	}
+	else {
 		return false;
+	}
 }

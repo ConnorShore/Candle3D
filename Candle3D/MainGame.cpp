@@ -9,7 +9,7 @@
 #include "glm\gtc\matrix_transform.hpp"
 
 
-MainGame::MainGame() : _isRunning(true), _screenWidth(1280), _screenHeight(720)
+MainGame::MainGame() : _isRunning(true), _screenWidth(1600), _screenHeight(900)
 {
 }
 
@@ -98,6 +98,7 @@ void MainGame::input()
 
 	if (_inputManager.isKeyDown(SDLK_TAB)) {
 		_physicsWorld.setDebugDraw(!_physicsWorld.isDebugDraw());
+		_inputManager.keyReleased(SDLK_TAB);
 	}
 
 	if (_inputManager.isKeyDown(SDLK_SPACE)) {
